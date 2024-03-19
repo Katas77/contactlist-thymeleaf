@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class ContactServiceImplement implements ContactService {
                 jdbcTemplate.query(sqL,
                         new ArgumentPreparedStatementSetter(new Object[]{id}),
                         new RowMapperResultSetExtractor<>(new TaskRowMapper(), 1)));
-        return contact;
+        return Optional.ofNullable(contact).orElse(null);
     }
 
     @Override
@@ -71,7 +72,7 @@ public class ContactServiceImplement implements ContactService {
     }
 
     @Override
-    public void batsInsert(List<Contact> contacts) {
+    public void patchInsert(List<Contact> contacts) {
         log.info("Calling batchInsert");
         String sql = "INSERT INTO contacts (firstName, lastName, email, phone, id) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
@@ -107,7 +108,7 @@ public class ContactServiceImplement implements ContactService {
     }
 
     public int newId() {
-        int newID = (findAll().get(findAll().size() - 1).getId() + 1);
+        int newID = (findAll().size()+1);
         return newID;
     }
 

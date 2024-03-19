@@ -9,12 +9,12 @@ import java.sql.SQLException;
 public class TaskRowMapper implements RowMapper<Contact> {
     @Override
     public Contact mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Contact contact=new Contact();
-        contact.setId((int) rs.getInt("id"));
-        contact.setFirstName(rs.getString("firstName"));
-        contact.setLastName(rs.getString("lastName"));
-        contact.setEmail(rs.getString("email"));
-        contact.setPhone(rs.getString("phone"));
+        Contact contact= Contact.builder()
+                .id(rs.getInt("id"))
+                .firstName(rs.getString("firstName"))
+                .lastName(rs.getString("lastName"))
+                .email(rs.getString("email"))
+                .phone(rs.getString("phone")).build();
         return contact;
     }
 }

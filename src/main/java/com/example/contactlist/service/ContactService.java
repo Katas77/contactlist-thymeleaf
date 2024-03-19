@@ -15,7 +15,8 @@ public interface ContactService {
 
     void deleteById(int id);
 
-    void batsInsert(List<Contact> contacts);
+    void patchInsert(List<Contact> contacts);
 
     void delAll();
+    int newId();
 }

@@ -25,21 +25,11 @@ public class DatabaseTaskCreator {
         contactService.delAll();
         log.debug("Calling DatabaseTaskCreator->createTaskData...");
         List<Contact> contacts = new ArrayList<>();
-        Contact petrov = new Contact();
-        petrov.setId(contactService.findAll().size() + 1);
-        petrov.setFirstName("Ivan");
-        petrov.setLastName("Petrov");
-        petrov.setEmail("petrov1999@mail.ru");
-        petrov.setPhone("+7-918-456-22-44");
+        Contact petrov = Contact.builder().id(contactService.newId()).firstName("Ivan").lastName("Petrov").email("petrov1999@mail.ru").phone("+7-918-456-22-44").build();
         contacts.add(petrov);
-        Contact ivanov = new Contact();
-        ivanov.setId(contactService.findAll().size() + 2);
-        ivanov.setFirstName("Ivan");
-        ivanov.setLastName("Ivanov");
-        ivanov.setEmail("ivanov1894@mail.ru");
-        ivanov.setPhone("+7-928-756-22-74");
+        Contact ivanov = Contact.builder().id(contactService.newId()+1).firstName("Ivan").lastName("Ivanov").email("ivanov1894@mail.ru").phone("+7-928-756-22-74").build();
         contacts.add(ivanov);
-        contactService.batsInsert(contacts);
+        contactService.patchInsert(contacts);
     }
 
 }
