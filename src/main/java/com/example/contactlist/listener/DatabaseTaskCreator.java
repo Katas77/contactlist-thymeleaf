@@ -31,5 +31,4 @@ public class DatabaseTaskCreator {
         contacts.add(ivanov);
         contactService.patchInsert(contacts);
     }
-
 }

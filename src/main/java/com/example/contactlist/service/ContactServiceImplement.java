@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +32,7 @@ public class ContactServiceImplement implements ContactService {
     }
 
     @Override
-    public Optional <Contact> findById(int id) {
+    public Optional<Contact> findById(int id) {
         log.info("Calling ContactServiceImplement->findById with ID:{}", id);
         String sqL = "SELECT * FROM contacts_schema.contacts WHERE id=?";
         Contact contact = DataAccessUtils.singleResult(
@@ -69,8 +68,6 @@ public class ContactServiceImplement implements ContactService {
         log.info("Calling ->delete with ID: {}", id);
         String sql = "DELETE FROM contacts_schema.contacts WHERE id =?";
         jdbcTemplate.update(sql, id);
-
-
     }
 
     @Override
@@ -93,7 +90,6 @@ public class ContactServiceImplement implements ContactService {
                 return contacts.size();
             }
         });
-
     }
 
     @Override
@@ -110,13 +106,13 @@ public class ContactServiceImplement implements ContactService {
     }
 
     public int newId() {
-       List<Contact> conList=new ArrayList<>();
+        List<Contact> conList = new ArrayList<>();
         conList.addAll(findAll());
-        if (conList.size()==0)
-        {return 1;}
-        else {
-        int newId = conList.get(conList.size()-1).getId()+1;
-        return newId;}
+        if (conList.size() == 0) {
+            return 1;
+        } else {
+            return (conList.get(conList.size() - 1).getId() + 1);
+        }
     }
 
 }

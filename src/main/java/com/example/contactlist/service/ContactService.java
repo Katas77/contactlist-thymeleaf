@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface ContactService {
     List<Contact> findAll();
 
-   Optional<Contact> findById(int id);
+    Optional<Contact> findById(int id);
 
     void save(Contact contact);
 
@@ -19,5 +19,6 @@ public interface ContactService {
     void patchInsert(List<Contact> contacts);
 
     void delAll();
+
     int newId();
 }

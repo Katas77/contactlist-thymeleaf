@@ -46,7 +46,7 @@ public class ContactController {
     //http://localhost:8080/task/edit/1
     @GetMapping("/contacts/edit/{id}")
     public String showEditForm(@PathVariable int id, Model model) {
-        Optional <Contact> contact = contactServiceService.findById(Math.toIntExact(id));
+        Optional<Contact> contact = contactServiceService.findById(Math.toIntExact(id));
         if (contact.isPresent()) {
             model.addAttribute("contacts", contact.get());
             return "edit";
