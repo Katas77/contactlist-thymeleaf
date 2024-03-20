@@ -13,15 +13,16 @@ import org.springframework.stereotype.Service;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ContactServiceImplement implements ContactService {
-
+    private  final AtomicInteger currentId = new AtomicInteger(1);
 
     private final JdbcTemplate jdbcTemplate; //    Шаблон - Template
 
@@ -106,13 +107,6 @@ public class ContactServiceImplement implements ContactService {
     }
 
     public int newId() {
-        List<Contact> conList = new ArrayList<>();
-        conList.addAll(findAll());
-        if (conList.size() == 0) {
-            return 1;
-        } else {
-            return (conList.get(conList.size() - 1).getId() + 1);
-        }
-    }
+   return  currentId.getAndIncrement();}
 
 }
