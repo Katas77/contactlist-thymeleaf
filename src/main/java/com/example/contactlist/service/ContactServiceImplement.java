@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,14 +33,14 @@ public class ContactServiceImplement implements ContactService {
     }
 
     @Override
-    public Contact findById(int id) {
+    public Optional <Contact> findById(int id) {
         log.info("Calling ContactServiceImplement->findById with ID:{}", id);
         String sqL = "SELECT * FROM contacts_schema.contacts WHERE id=?";
         Contact contact = DataAccessUtils.singleResult(
                 jdbcTemplate.query(sqL,
                         new ArgumentPreparedStatementSetter(new Object[]{id}),
                         new RowMapperResultSetExtractor<>(new TaskRowMapper(), 1)));
-        return Optional.ofNullable(contact).orElse(null);
+        return Optional.ofNullable(contact);
     }
 
     @Override
@@ -52,8 +54,8 @@ public class ContactServiceImplement implements ContactService {
     @Override
     public Contact uptadeContact(Contact contact) {
         log.info("Calling ContactServiceImplement->update with Task: {}", contact);
-        Contact existedContact = findById(contact.getId());
-        if (existedContact != null) {
+        Optional<Contact> existedContact = findById(contact.getId());
+        if (existedContact.isPresent()) {
             String sql = "UPDATE contacts_schema.contacts SET firstName=?, lastName =?, email = ?, phone = ? WHERE id =?";
             jdbcTemplate.update(sql, contact.getFirstName(), contact.getLastName(), contact.getEmail(), contact.getPhone(), contact.getId());
             return contact;
@@ -108,8 +110,13 @@ public class ContactServiceImplement implements ContactService {
     }
 
     public int newId() {
-        int newID = (findAll().size()+1);
-        return newID;
+       List<Contact> conList=new ArrayList<>();
+        conList.addAll(findAll());
+        if (conList.size()==0)
+        {return 1;}
+        else {
+        int newId = conList.get(conList.size()-1).getId()+1;
+        return newId;}
     }
 
 }

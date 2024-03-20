@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Optional;
+
 
 @Controller
 @Slf4j
@@ -44,9 +46,9 @@ public class ContactController {
     //http://localhost:8080/task/edit/1
     @GetMapping("/contacts/edit/{id}")
     public String showEditForm(@PathVariable int id, Model model) {
-        Contact contact = contactServiceService.findById(Math.toIntExact(id));
-        if (contact != null) {
-            model.addAttribute("contacts", contact);
+        Optional <Contact> contact = contactServiceService.findById(Math.toIntExact(id));
+        if (contact.isPresent()) {
+            model.addAttribute("contacts", contact.get());
             return "edit";
         } else {
             return "redirect:/";

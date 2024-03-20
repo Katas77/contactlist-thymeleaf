@@ -3,11 +3,12 @@ package com.example.contactlist.service;
 import com.example.contactlist.model.Contact;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ContactService {
     List<Contact> findAll();
 
-    Contact findById(int id);
+   Optional<Contact> findById(int id);
 
     void save(Contact contact);
 
