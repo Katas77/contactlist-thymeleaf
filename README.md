@@ -1,6 +1,6 @@
-<center><font size="3" face="Georgia"> <h3> "Contacts Application"
-</h3></font>
-</center>
+## "Contacts Application"
+
+
 
 ## Overview:
 - The Contacts application is a small console-based application designed to manage contact information. 

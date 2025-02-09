@@ -1,4 +1,4 @@
-package com.example.contactlist;
+package com.example.contactlist.controller;
 
 import com.example.contactlist.model.Contact;
 import com.example.contactlist.service.ContactService;

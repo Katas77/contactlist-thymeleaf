@@ -19,7 +19,6 @@ import java.util.List;
 public class DatabaseTaskCreator {
     private final ContactService contactService;
 
-
     @EventListener(ApplicationStartedEvent.class)
     public void createTaskData() {
         contactService.delAll();
