@@ -1,5 +1,4 @@
-package com.example.contactlist.listener;
-
+package com.example.contactlist.init;
 
 import com.example.contactlist.model.Contact;
 import com.example.contactlist.service.ContactService;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Component
 @RequiredArgsConstructor
@@ -31,3 +29,4 @@ public class DatabaseTaskCreator {
         contactService.patchInsert(contacts);
     }
 }
+

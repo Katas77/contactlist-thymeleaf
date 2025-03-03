@@ -1,63 +1,142 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"><!--указывате на то, что мы будем использовать синтаксис thymeleaf-->
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Contact Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5dc;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e7e7e7;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin: 10px 0;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #005f7f;
+        }
+
+        a {
+            color: #a52a2a;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .add-contact {
+        display: block;
+        text-align: center;
+        font-size: 2em; /* Увеличен размер шрифта */
+        font-style: italic; /* Добавлен курсив */
+        color: #00008b;
+        margin-top: 20px;
+    }
+    </style>
 </head>
-<body bgcolor="#f5f5dc">
-<center>
-    <h1>«Список контактов»</h1>
-    <table border="1">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Имя</th>
-            <th>Фамилия</th>
-            <th>Email</th>
-            <th>Телефон</th>
-            <th>Редактирование контакта</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="contact : ${contacts}"> <!-- for (Task task:tasks)-->
-            <td th:text="${contact.id}"></td>
-            <td th:text="${contact.firstName}"></td>
-            <td th:text="${contact.lastName}"></td>
-            <td th:text="${contact.email}"></td>
-            <td th:text="${contact.phone}"></td>
-            <td>
-                    <form action="/contacts/edit" method="post">
-                        <input type="hidden" name="id" th:value="${contact.id}">
-                        <div>
-                            <label for="firstName">Имя:</label>
-                            <input type="text" id="firstName" name="firstName" required th:value="${contact.firstName}">
-                        </div>
-                        <div>
-                            <label for="lastName">Фамилия:</label>
-                            <input type="text" id="lastName" name="lastName" required th:value="${contact.lastName}">
-                        </div>
-                        <div>
-                            <label for="email">Email:</label>
-                            <input type="text" id="email" name="email" required th:value="${contact.email}">
-                        </div>
-                        <div>
-                            <label for="phone">Телефон:</label>
-                            <input id="phone" name="phone" required th:value="${contact.phone}">
-                        </div>
-                        <button type="submit">Save</button>
-                    </form>
-                    <a th:href="@{/contacts/delete/{id}(id=${contact.id})}"><font size="3" color="#a52a2a" face="Arial"> Delete</font></a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <br>
-    <br>
-    <a href="/contacts/create"><font size="5" color="#00008b" face="Arial">Добавить контакт</font></a>
-</center>
+
+<body>
+<h1>Список контактов</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Email</th>
+        <th>Телефон</th>
+        <th>Редактировать</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="contact : ${contacts}">
+        <td th:text="${contact.id}"></td>
+        <td th:text="${contact.firstName}"></td>
+        <td th:text="${contact.lastName}"></td>
+        <td th:text="${contact.email}"></td>
+        <td th:text="${contact.phone}"></td>
+        <td>
+            <form action="/contacts/edit" method="post">
+                <input type="hidden" name="id" th:value="${contact.id}">
+                <div>
+                    <label for="firstName">Имя:</label>
+                    <input type="text" id="firstName" name="firstName" required th:value="${contact.firstName}">
+                </div>
+                <div>
+                    <label for="lastName">Фамилия:</label>
+                    <input type="text" id="lastName" name="lastName" required th:value="${contact.lastName}">
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" name="email" required th:value="${contact.email}">
+                </div>
+                <div>
+                    <label for="phone">Телефон:</label>
+                    <input id="phone" name="phone" required th:value="${contact.phone}">
+                </div>
+                <button type="submit">Сохранить отредактированное</button>
+            </form>
+            <a th:href="@{/contacts/delete/{id}(id=${contact.id})}">Удалить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/contacts/create" class="add-contact">Добавить контакт</a>
 </body>
 </html>
-
 
 
 

@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
-
 
 @Controller
 @Slf4j
@@ -28,23 +26,18 @@ public class ContactController {
         return "index";
     }
 
-
-    @GetMapping("/contacts/create")//GETИспользуется для запроса содержимого указанного ресурса.
+    @GetMapping("/contacts/create")
     public String showCreateForm(Model model) {
         model.addAttribute("contacts", new Contact());
         return "create";
     }
 
-
-    // http://localhost:8080/task/create
-    @PostMapping("/contacts/create")//POST (HTTP)Применяется для передачи пользовательских данных заданному ресурсу.
+    @PostMapping("/contacts/create")
     public String createTask(@ModelAttribute Contact contact) {
         contactServiceService.save(contact);
         return "redirect:/";
     }
 
-
-    //http://localhost:8080/task/edit/1
     @GetMapping("/contacts/edit/{id}")
     public String showEditForm(@PathVariable int id, Model model) {
         Optional<Contact> contact = contactServiceService.findById(Math.toIntExact(id));
@@ -58,7 +51,7 @@ public class ContactController {
 
     @PostMapping("/contacts/edit")
     public String editTask(@ModelAttribute Contact contact) {
-        contactServiceService.uptadeContact(contact);
+        contactServiceService.updateContact(contact);
         return "redirect:/";
 
     }
@@ -68,7 +61,5 @@ public class ContactController {
     public String deleteTask(@PathVariable int id) {
         contactServiceService.deleteById(id);
         return "redirect:/";
-
     }
-
 }

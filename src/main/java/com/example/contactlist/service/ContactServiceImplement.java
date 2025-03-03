@@ -1,5 +1,6 @@
 package com.example.contactlist.service;
 
+import com.example.contactlist.exception.ContactNotFoundException;
 import com.example.contactlist.model.Contact;
 import com.example.contactlist.mapper.TaskRowMapper;
 import lombok.RequiredArgsConstructor;
@@ -16,58 +17,58 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class ContactServiceImplement implements ContactService {
-    private  final AtomicInteger currentId = new AtomicInteger(1);
-
-    private final JdbcTemplate jdbcTemplate; //    Шаблон - Template
+    private final AtomicInteger currentId = new AtomicInteger(1);
+    private final JdbcTemplate jdbcTemplate;
 
     @Override
     public List<Contact> findAll() {
-        String query = "SELECT * FROM contacts_schema.contacts ORDER BY id ASC ";
+        String query = "SELECT * FROM contacts_schema.contacts ORDER BY id ASC";
         return jdbcTemplate.query(query, new TaskRowMapper());
     }
 
     @Override
     public Optional<Contact> findById(int id) {
-        log.info("Calling ContactServiceImplement->findById with ID:{}", id);
-        String sqL = "SELECT * FROM contacts_schema.contacts WHERE id=?";
+        log.info("Calling ContactServiceImplement->findById with ID: {}", id);
+        String sql = "SELECT * FROM contacts_schema.contacts WHERE id = ?";
         Contact contact = DataAccessUtils.singleResult(
-                jdbcTemplate.query(sqL,
-                        new ArgumentPreparedStatementSetter(new Object[]{id}),
+                jdbcTemplate.query(sql, new ArgumentPreparedStatementSetter(new Object[]{id}),
                         new RowMapperResultSetExtractor<>(new TaskRowMapper(), 1)));
         return Optional.ofNullable(contact);
     }
 
     @Override
     public void save(Contact contact) {
-        log.info("Calling ContactServiceImplement->save with Task: {}", contact);
+        log.info("Calling ContactServiceImplement->save with Contact: {}", contact);
         contact.setId(newId());
         String sql = "INSERT INTO contacts (firstName, lastName, email, phone, id) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, contact.getFirstName(), contact.getLastName(), contact.getEmail(), contact.getPhone(), contact.getId());
+        jdbcTemplate.update(sql, contact.getFirstName(), contact.getLastName(),
+                contact.getEmail(), contact.getPhone(), contact.getId());
     }
 
     @Override
-    public Contact uptadeContact(Contact contact) {
-        log.info("Calling ContactServiceImplement->update with Task: {}", contact);
-        Optional<Contact> existedContact = findById(contact.getId());
-        if (existedContact.isPresent()) {
-            String sql = "UPDATE contacts_schema.contacts SET firstName=?, lastName =?, email = ?, phone = ? WHERE id =?";
-            jdbcTemplate.update(sql, contact.getFirstName(), contact.getLastName(), contact.getEmail(), contact.getPhone(), contact.getId());
-            return contact;
+    public void updateContact(Contact contact) {
+        log.info("Calling ContactServiceImplement->update with Contact: {}", contact);
+        Optional<Contact> existingContact = findById(contact.getId());
+
+        if (existingContact.isPresent()) {
+            String sql = "UPDATE contacts_schema.contacts SET firstName = ?, lastName = ?, email = ?, phone = ? WHERE id = ?";
+            jdbcTemplate.update(sql, contact.getFirstName(), contact.getLastName(),
+                    contact.getEmail(), contact.getPhone(), contact.getId());
+        } else {
+            log.warn("Contact with ID {} not found!", contact.getId());
+            throw new ContactNotFoundException("Contact for update not found! ID: " + contact.getId());
         }
-        log.warn("Contact with ID {} not found!", contact.getId());
-        throw new ContactNotFoundException("Contact for update not found! ID: " + contact.getId());
     }
 
     @Override
     public void deleteById(int id) {
-        log.info("Calling ->delete with ID: {}", id);
-        String sql = "DELETE FROM contacts_schema.contacts WHERE id =?";
+        log.info("Calling ContactServiceImplement->delete with ID: {}", id);
+        String sql = "DELETE FROM contacts_schema.contacts WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 
@@ -97,16 +98,9 @@ public class ContactServiceImplement implements ContactService {
     public void delAll() {
         String sql = "TRUNCATE TABLE contacts";
         jdbcTemplate.update(sql);
-
-    }
-
-    public class ContactNotFoundException extends RuntimeException {
-        public ContactNotFoundException(String message) {
-            super(message);
-        }
     }
 
     public int newId() {
-   return  currentId.getAndIncrement();}
-
+        return currentId.getAndIncrement();
+    }
 }
