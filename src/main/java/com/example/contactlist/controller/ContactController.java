@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -18,11 +15,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ContactController {
 
-    private final ContactService contactServiceService;
+    private final ContactService contactService;
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("contacts", contactServiceService.findAll());
+        model.addAttribute("contacts", contactService.findAll());
         return "index";
     }
 
@@ -34,13 +31,13 @@ public class ContactController {
 
     @PostMapping("/contacts/create")
     public String createTask(@ModelAttribute Contact contact) {
-        contactServiceService.save(contact);
+        contactService.save(contact);
         return "redirect:/";
     }
 
     @GetMapping("/contacts/edit/{id}")
     public String showEditForm(@PathVariable int id, Model model) {
-        Optional<Contact> contact = contactServiceService.findById(Math.toIntExact(id));
+        Optional<Contact> contact = contactService.findById(Math.toIntExact(id));
         if (contact.isPresent()) {
             model.addAttribute("contacts", contact.get());
             return "edit";
@@ -51,15 +48,15 @@ public class ContactController {
 
     @PostMapping("/contacts/edit")
     public String editTask(@ModelAttribute Contact contact) {
-        contactServiceService.updateContact(contact);
+        contactService.updateContact(contact);
         return "redirect:/";
 
     }
-
-
     @GetMapping("/contacts/delete/{id}")
     public String deleteTask(@PathVariable int id) {
-        contactServiceService.deleteById(id);
+        contactService.deleteById(id);
         return "redirect:/";
     }
+
+
 }
