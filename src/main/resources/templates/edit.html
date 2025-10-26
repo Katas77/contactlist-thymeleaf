@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Добавить контакт</title>
+    <title>Редактировать контакт</title>
     <style>
+        /* Тот же стиль, что и в create.html */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #f5f5dc, #e6e2d3);
@@ -83,9 +84,12 @@
 </head>
 <body>
 <div class="form-container">
-    <h1>Добавить контакт</h1>
+    <h1>Редактировать контакт</h1>
     <!-- Добавлен th:object="${contact}" -->
-    <form th:action="@{/contacts/create}" method="post" th:object="${contact}">
+    <form th:action="@{/contacts/edit}" method="post" th:object="${contact}">
+        <!-- ID теперь тоже через th:field -->
+        <input type="hidden" th:field="*{id}" />
+
         <div class="form-group">
             <label for="firstName">Имя:</label>
             <input type="text" id="firstName" name="firstName" required th:field="*{firstName}">
