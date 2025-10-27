@@ -5,111 +5,175 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Редактировать контакт</title>
     <style>
-        /* Тот же стиль, что и в create.html */
+        /* Сохранена логика и атрибуты, улучшен внешний вид */
+        :root{
+            --bg1: #fbf9f6;
+            --bg2: #f2efe9;
+            --card: #ffffff;
+            --accent: #0078a8; /* primary */
+            --accent-dark: #005f85;
+            --muted: #6b7280;
+            --danger: #d9534f;
+            --radius: 12px;
+            --gap: 12px;
+        }
+        *{box-sizing: border-box}
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f5dc, #e6e2d3);
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg1), var(--bg2));
             margin: 0;
-            padding: 20px;
+            padding: 28px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            box-sizing: border-box;
+            color: #1f2937;
         }
         .form-container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            background: linear-gradient(180deg, rgba(255,255,255,0.9), var(--card));
+            padding: 28px;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
             width: 100%;
-            max-width: 400px;
+            max-width: 520px;
+            border: 1px solid rgba(15,23,42,0.04);
         }
         h1 {
-            text-align: center;
-            color: #444;
-            margin-bottom: 24px;
-            font-weight: 600;
+            text-align: left;
+            color: #0f172a;
+            margin: 0 0 18px 0;
+            font-weight: 700;
+            font-size: 20px;
+            display:flex;align-items:center;gap:10px
         }
-        .form-group { margin-bottom: 20px; }
+        .subtitle{color:var(--muted);font-size:13px;margin-top:6px}
+
+        .form-grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap: var(--gap);
+            margin-top: 18px;
+        }
+        .form-group { margin-bottom: 14px; }
         label {
             display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-            color: #555;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #334155;
+            font-size: 13px;
         }
         input[type="text"], input[type="email"], input[type="tel"] {
             width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-            transition: border-color 0.3s;
-            box-sizing: border-box;
+            padding: 12px 14px;
+            border: 1px solid rgba(15,23,42,0.08);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.18s, box-shadow 0.18s, transform 0.06s;
+            background: linear-gradient(180deg, #fff, #fbfdff);
         }
+        input::placeholder{color:#94a3b8}
         input:focus {
             outline: none;
-            border-color: #008CBA;
-            box-shadow: 0 0 0 2px rgba(0, 140, 186, 0.2);
+            border-color: var(--accent);
+            box-shadow: 0 6px 18px rgba(0,120,168,0.12);
+            transform: translateY(-1px);
         }
+        /* Стили кнопок */
         .button-group {
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            margin-top: 12px;
         }
-        .button-group button {
+        .button-group .save-btn, .button-group .cancel-btn {
             flex: 1;
-            padding: 12px;
+            padding: 12px 14px;
             border: none;
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        .save-btn { background-color: #008CBA; color: white; }
-        .save-btn:hover { background-color: #006a8f; }
-        .cancel-btn {
-            display: flex;
+            font-size: 15px;
+            font-weight: 700;
+            transition: all 0.18s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            background-color: #f0f0f0;
-            color: #333;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: background-color 0.3s;
+            gap:8px;
         }
-        .cancel-btn:hover { background-color: #e0e0e0; }
+        .save-btn {
+            background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(0,120,168,0.18);
+        }
+        .save-btn:hover{ transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,120,168,0.18)}
+
+        /* Красивая кнопка Отмена как мягкая прозрачная с красным акцентом */
+        .cancel-btn {
+            background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.6));
+            border: 1px solid rgba(217,83,79,0.14);
+            color: var(--danger);
+            font-weight: 700;
+        }
+        .cancel-btn::before{
+            content: "✕";
+            display:inline-block;
+            width:18px;height:18px;
+            line-height:18px;text-align:center;
+            border-radius:6px;
+            background: rgba(217,83,79,0.08);
+            color: var(--danger);
+            font-size:12px;
+        }
+        .cancel-btn:hover{
+            background: rgba(217,83,79,0.06);
+            color: #b52e2a;
+            transform: translateY(-2px);
+            border-color: rgba(181,46,42,0.18);
+            box-shadow: 0 8px 20px rgba(181,46,42,0.06);
+        }
+        .cancel-btn:focus, .save-btn:focus{
+            outline: 3px solid rgba(0,120,168,0.12);
+            outline-offset: 2px;
+        }
+        /* Мобильная адаптация */
+        @media (max-width:520px){
+            .form-grid{grid-template-columns:1fr}
+            .button-group{flex-direction:column}
+        }
     </style>
 </head>
 <body>
 <div class="form-container">
     <h1>Редактировать контакт</h1>
+    <div class="subtitle">Обновите данные и нажмите «Сохранить» или вернитесь назад.</div>
+
     <!-- Добавлен th:object="${contact}" -->
     <form th:action="@{/contacts/edit}" method="post" th:object="${contact}">
         <!-- ID теперь тоже через th:field -->
         <input type="hidden" th:field="*{id}" />
 
-        <div class="form-group">
-            <label for="firstName">Имя:</label>
-            <input type="text" id="firstName" name="firstName" required th:field="*{firstName}">
-        </div>
-        <div class="form-group">
-            <label for="lastName">Фамилия:</label>
-            <input type="text" id="lastName" name="lastName" required th:field="*{lastName}">
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required th:field="*{email}">
-        </div>
-        <div class="form-group">
-            <label for="phone">Телефон:</label>
-            <input type="tel" id="phone" name="phone" required th:field="*{phone}">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="firstName">Имя:</label>
+                <input type="text" id="firstName" name="firstName" required th:field="*{firstName}">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Фамилия:</label>
+                <input type="text" id="lastName" name="lastName" required th:field="*{lastName}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required th:field="*{email}">
+            </div>
+            <div class="form-group">
+                <label for="phone">Телефон:</label>
+                <input type="tel" id="phone" name="phone" required th:field="*{phone}">
+            </div>
         </div>
 
         <div class="button-group">
             <button type="submit" class="save-btn">Сохранить</button>
-            <a href="/" class="cancel-btn">Отмена</a>
+            <a href="/" class="cancel-btn" role="button" aria-label="Отмена">Отмена</a>
         </div>
     </form>
 </div>

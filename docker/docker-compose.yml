@@ -1,21 +1,21 @@
 version:
   '3'
 services:
- postgres:
-  image:
-    postgres:12.3
-  ports:
-   - "5432:5432"
-  environment:
-    - POSTGRES_USER=roman
-    - POSTGRES_PASSWORD=skill
-    - POSTGRES_DB=contacts
-  volumes:
-    - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  postgres:
+    image:
+      postgres:12.3
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=contacts
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
 
 
-
+## если запускаете  приложение  из IntelliJ IDEA
 
 # cd docker
 # docker-compose up

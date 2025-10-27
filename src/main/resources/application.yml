@@ -1,12 +1,13 @@
-# URL локального приложения:
-# http://localhost:8080/
 server:
  port: 8080
-
 spring:
  datasource:
   url: jdbc:postgresql://localhost:5432/contacts
-  username: roman
-  password: skill
+  username: user
+  password: password
   hikari:
    schema: contacts_schema
+
+
+# URL локального приложения:
+# http://localhost:8080/

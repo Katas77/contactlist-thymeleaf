@@ -15,17 +15,17 @@ public class ContactController {
 
     private final ContactService contactService;
 
-    // Главная страница — список контактов
+
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("contacts", contactService.findAll());
         return "index"; // → templates/index.html
     }
 
-    // Форма создания
+
     @GetMapping("/contacts/create")
     public String showCreateForm(Model model) {
-        model.addAttribute("contact", new Contact()); // ← "contact", не "contacts"!
+        model.addAttribute("contact", new Contact());
         return "create"; // → templates/create.html
     }
 
@@ -36,26 +36,30 @@ public class ContactController {
         return "redirect:/";
     }
 
-    // Форма редактирования
+
     @GetMapping("/contacts/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
-        Contact contact = contactService.findById(Math.toIntExact(id))
+    public String showEditForm(@PathVariable int id, Model model) {
+        Contact contact = contactService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Контакт не найден: " + id));
         model.addAttribute("contact", contact); // ← "contact"
         return "edit"; // → templates/edit.html
     }
 
-    // Обновление контакта
+
     @PostMapping("/contacts/edit")
     public String updateContact(@ModelAttribute Contact contact) {
-        contactService.save(contact); // или отдельный update — зависит от вашей логики
+        contactService.updateContact(contact);
         return "redirect:/";
     }
 
-    // Удаление
+
     @GetMapping("/contacts/delete/{id}")
-    public String deleteContact(@PathVariable Long id) {
-        contactService.deleteById(Math.toIntExact(id));
+    public String deleteContact(@PathVariable int id) {
+        contactService.deleteById(id);
         return "redirect:/";
     }
-}
+
+
+
+    }
+
