@@ -16,9 +16,10 @@ public interface ContactService {
 
     void deleteById(int id);
 
-    void patchInsert(List<Contact> contacts);
+    void batchInsert(List<Contact> contacts);
 
     void delAll();
 
-    int newId();
+    int generateNewId();
+    List<Contact> search(String query);
 }

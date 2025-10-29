@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -58,8 +60,14 @@ public class ContactController {
         contactService.deleteById(id);
         return "redirect:/";
     }
-
-
+    @GetMapping("/contacts")
+    public String listContacts(@RequestParam(value = "q", required = false) String q, Model model) {
+        log.info("List contacts request, q={}", q);
+        List<Contact> contacts = contactService.search(q);
+        model.addAttribute("contacts", contacts);
+        model.addAttribute("q", q);
+        return "index";
+    }
 
     }
 

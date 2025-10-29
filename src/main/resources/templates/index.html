@@ -1,154 +1,19 @@
+<!--
+  Thymeleaf шаблон: contacts.html
+  Разместить: src/main/resources/templates/contacts.html
+  Подключаемый CSS: src/main/resources/static/css/contacts.css
+  Используемые модельные атрибуты:
+    - contacts : Iterable<Contact>
+    - q       : строка поиска (optional)
+-->
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Список контактов</title>
-    <style>
-        :root{
-            --bg: #f6f8fa;
-            --card: #ffffff;
-            --muted: #6b7280;
-            --accent: #0b78a8;
-            --danger: #d32f2f;
-            --radius: 10px;
-            --gap: 16px;
-        }
-
-        * { box-sizing: border-box; }
-        html,body { height: 100%; margin: 0; }
-
-        body {
-            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-            background: linear-gradient(180deg, #f7fafc 0%, #f0f4f8 100%);
-            color: #0f172a;
-            padding: 28px;
-        }
-
-        .wrap {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            color: #0f172a;
-            margin: 0 0 10px 0;
-            font-size: 22px;
-            font-weight: 700;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: var(--muted);
-            margin-bottom: 18px;
-            font-size: 14px;
-        }
-
-        /* Table card */
-        .table-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
-            overflow: hidden;
-            border: 1px solid rgba(15,23,42,0.04);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 720px; /* сохраняет читабельность на узких экранах */
-        }
-
-        thead th {
-            background: linear-gradient(180deg, #fbfdff, #f3f7fb);
-            padding: 14px 16px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 13px;
-            color: #0f172a;
-            border-bottom: 1px solid rgba(15,23,42,0.06);
-        }
-
-        tbody td {
-            padding: 12px 16px;
-            vertical-align: middle;
-            font-size: 14px;
-            border-bottom: 1px solid rgba(15,23,42,0.04);
-            color: #0f172a;
-        }
-
-        tbody tr {
-            background: transparent;
-            transition: background 0.14s, transform 0.14s;
-        }
-
-        tbody tr:hover {
-            background: linear-gradient(90deg, rgba(0,120,168,0.03), rgba(0,120,168,0.01));
-            transform: translateY(-2px);
-        }
-
-        /* Actions */
-        .actions a {
-            display: inline-block;
-            margin-right: 10px;
-            text-decoration: none;
-            padding: 8px 10px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            transition: background 0.14s, color 0.14s;
-        }
-
-        .actions a.edit {
-            color: #ffffff;
-            background: linear-gradient(180deg, #00a884, #008a6b);
-        }
-
-        .actions a.edit:hover {
-            filter: brightness(0.96);
-        }
-
-        .actions a.delete {
-            color: var(--danger);
-            background: rgba(217,83,79,0.06);
-            border: 1px solid rgba(217,83,79,0.12);
-        }
-
-        .actions a.delete:hover {
-            background: rgba(217,83,79,0.10);
-        }
-
-        /* Add button */
-        .add-contact {
-            display: inline-block;
-            margin-top: 18px;
-            background: linear-gradient(180deg, var(--accent), #055e7a);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: transform 0.12s, box-shadow 0.12s;
-            box-shadow: 0 8px 20px rgba(11,120,168,0.10);
-        }
-
-        .add-contact:hover {
-            transform: translateY(-2px);
-        }
-
-        /* Responsive: horizontal scroll for small widths */
-        .table-scroll {
-            overflow-x: auto;
-        }
-
-        /* Mobile: compact spacing */
-        @media (max-width:600px){
-            body { padding: 16px; }
-            thead th, tbody td { padding: 10px 12px; font-size: 13px; }
-            .add-contact { width: 100%; display: block; text-align: center; }
-        }
-    </style>
+    <!-- Подключение внешнего CSS из /static/css/ -->
+    <link rel="stylesheet" th:href="@{/css/contacts.css}" />
 </head>
 <body>
 <div class="wrap">
@@ -156,6 +21,15 @@
     <div class="subtitle">Управляйте контактами: просматривайте, редактируйте и удаляйте записи.</div>
 
     <div class="table-card">
+        <div class="search-bar">
+            <form th:action="@{/contacts}" method="get">
+                <input class="search-input" type="text" name="q" placeholder="Поиск по имени, фамилии, email или телефону"
+                       th:value="${q}">
+                <button class="search-btn" type="submit">Найти</button>
+            </form>
+            <a class="clear-link" th:href="@{/contacts}">Сбросить</a>
+        </div>
+
         <div class="table-scroll">
             <table>
                 <thead>
@@ -187,7 +61,7 @@
         </div>
     </div>
 
-    <a href="/contacts/create" class="add-contact">Добавить контакт</a>
+    <a th:href="@{/contacts/create}" class="add-contact">Добавить контакт</a>
 </div>
 </body>
 </html>

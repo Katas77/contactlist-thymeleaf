@@ -8,9 +8,6 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -19,14 +16,11 @@ public class DatabaseTaskCreator {
 
     @EventListener(ApplicationStartedEvent.class)
     public void createTaskData() {
-        contactService.delAll();
         log.debug("Calling DatabaseTaskCreator->createTaskData...");
-        List<Contact> contacts = new ArrayList<>();
-        Contact petrov = Contact.builder().id(contactService.newId()).firstName("Andrey").lastName("Petrov").email("petrov1999@mail.ru").phone("+7-918-456-22-44").build();
-        contacts.add(petrov);
-        Contact ivanov = Contact.builder().id(contactService.newId()).firstName("Ivan").lastName("Ivanov").email("ivanov1894@mail.ru").phone("+7-928-756-22-74").build();
-        contacts.add(ivanov);
-        contactService.patchInsert(contacts);
+        Contact petrov = Contact.builder().id(contactService.generateNewId()).firstName("Andrey").lastName("Petrov").email("petrov1999@mail.ru").phone("+7-918-456-22-44").build();
+        contactService.save(petrov);
+        Contact ivanov = Contact.builder().id(contactService.generateNewId()).firstName("Ivan").lastName("Ivanov").email("ivanov1894@mail.ru").phone("+7-928-756-22-74").build();
+        contactService.save(ivanov);
     }
 }
 

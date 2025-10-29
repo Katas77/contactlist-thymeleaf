@@ -1,4 +1,4 @@
-package com.example.contactlist.mapper;
+package com.example.contactlist.taskRowMapper;
 
 import com.example.contactlist.model.Contact;
 import org.springframework.jdbc.core.RowMapper;
