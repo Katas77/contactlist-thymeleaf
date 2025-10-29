@@ -31,11 +31,11 @@ public class ContactController {
         return "create"; // → templates/create.html
     }
 
-    // Сохранение нового контакта
+
     @PostMapping("/contacts/create")
     public String createContact(@ModelAttribute Contact contact) {
         contactService.save(contact);
-        return "redirect:/";
+        return "redirect:/";//redirect:/" — это редирект (перенаправление) на корневой URL
     }
 
 

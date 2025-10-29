@@ -1,8 +1,8 @@
-     :root{
+ :root{
             --bg1: #fbf9f6;
             --bg2: #f2efe9;
             --card: #ffffff;
-            --accent: #0078a8; /* primary */
+            --accent: #0078a8;
             --accent-dark: #005f85;
             --muted: #6b7280;
             --danger: #d9534f;
@@ -33,10 +33,9 @@
         h1 {
             text-align: left;
             color: #0f172a;
-            margin: 0 0 18px 0;
+            margin: 0 0 6px 0;
             font-weight: 700;
             font-size: 20px;
-            display:flex;align-items:center;gap:10px
         }
         .subtitle{color:var(--muted);font-size:13px;margin-top:6px}
 
@@ -70,7 +69,6 @@
             box-shadow: 0 6px 18px rgba(0,120,168,0.12);
             transform: translateY(-1px);
         }
-        /* Стили кнопок */
         .button-group {
             display: flex;
             gap: 12px;
@@ -99,7 +97,6 @@
         }
         .save-btn:hover{ transform: translateY(-2px); box-shadow: 0 14px 30px rgba(0,120,168,0.18)}
 
-        /* Красивая кнопка Отмена как мягкая прозрачная с красным акцентом */
         .cancel-btn {
             background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.6));
             border: 1px solid rgba(217,83,79,0.14);
@@ -127,7 +124,6 @@
             outline: 3px solid rgba(0,120,168,0.12);
             outline-offset: 2px;
         }
-        /* Мобильная адаптация */
         @media (max-width:520px){
             .form-grid{grid-template-columns:1fr}
             .button-group{flex-direction:column}

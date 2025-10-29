@@ -111,7 +111,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     public int generateNewId() {
-        String sql = "SELECT COALESCE(MAX(id), 0) + 1 FROM " + SCHEMA_TABLE;
+        String sql = "SELECT COALESCE(MAX(id), 0) + 1 FROM " + SCHEMA_TABLE; //— Функция COALESCE возвращает первое ненулевое значение из списка аргументов.Если таблица пустая, то MAX(id) вернёт NULL (потому что нет строк).Тогда COALESCE(NULL, 0) вернёт 0.
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
