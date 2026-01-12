@@ -16,11 +16,14 @@ public class DatabaseTaskCreator {
 
     @EventListener(ApplicationStartedEvent.class)
     public void createTaskData() {
+        contactService.delAll();
         log.debug("Calling DatabaseTaskCreator->createTaskData...");
         Contact petrov = Contact.builder().id(contactService.generateNewId()).firstName("Andrey").lastName("Petrov").email("petrov1999@mail.ru").phone("+7-918-456-22-44").build();
         contactService.save(petrov);
         Contact ivanov = Contact.builder().id(contactService.generateNewId()).firstName("Ivan").lastName("Ivanov").email("ivanov1894@mail.ru").phone("+7-928-756-22-74").build();
         contactService.save(ivanov);
+        Contact andre = Contact.builder().id(contactService.generateNewId()).firstName("Андре").lastName("Павлов").email("ivanov1894@mail.ru").phone("+7-928-756-22-74").build();
+        contactService.save(andre);
     }
 }
 
